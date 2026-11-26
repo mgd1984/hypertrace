@@ -1,5 +1,7 @@
 # Hypertrace
 
+![Hypertrace](dist/screenshot.png)
+
 [Open the live reader](https://hypertrace-r04.gener8or.chatgpt.site)
 
 Hypertrace displays live Boosted remote inputs alongside an interactive enclosure. Rotate the housing, change its finish, or connect a compatible remote to watch the thumbwheel and trigger readings.
