@@ -118,6 +118,7 @@ button,select,summary,body {font-family:"DIN Alternate","Helvetica Neue",Arial,s
 #finishControl label{position:relative;display:grid;place-items:center;width:40px;height:40px;cursor:pointer}
 #finishControl input{position:absolute;opacity:0}
 .swatch{width:26px;height:26px;border-radius:50%;border:1px solid #aaa;background:linear-gradient(145deg,#353737 64%,#ff702d 65% 75%,#212223 76%)}
+.s1{background:#202020}
 .s0{background:radial-gradient(#c6b8a1 0.8px,transparent 1px) 0 0/5px 6px,linear-gradient(145deg,#252626 64%,#fa782c 65% 76%,#252626 77%)}
 .s2{background:linear-gradient(145deg,#284337 65%,#d6c8ae 66% 78%,#263b33 79%)}
 input:checked+.swatch{outline:2px solid #ff884d;outline-offset:3px}
@@ -150,6 +151,19 @@ h1,.instrument h2,h2{font:700 clamp(28px,2.7vw,84px)/.98 BarlowCond,sans-serif;l
 #fullscreenCad{position:static;display:grid;place-items:center;min-width:40px}#fullscreenCad[hidden]{display:none}
 #finishControl{min-width:0;max-width:100%;overflow-x:auto}#finishControl label{flex:none}
 @media(max-width:720px){#modelControls:not([hidden]){flex-wrap:nowrap;width:calc(100% - 20px)}#fitCad{white-space:nowrap}#finishControl{flex:1}header .actions{gap:3px}}
+#customize{display:grid;place-items:center;min-width:42px;padding:6px}
+#customize[data-active],#customize:has(+ :popover-open){border-color:#b8b4a9}
+#colorEditor{position:fixed;inset:auto 0 calc(var(--pad,16px) + 72px);margin:0 auto;padding:0;width:min(350px,94vw);max-height:64dvh;overflow:auto;color:#e6e9e5;background:#222625;border:1px solid #4a514e;border-radius:6px;box-shadow:0 8px 26px #0005}
+#colorEditor header{position:static;pointer-events:auto;display:flex;align-items:center;justify-content:space-between;margin:0 16px;padding:10px 0;border-bottom:1px solid #424946}
+#colorEditor h2{font:700 21px/1 BarlowCond,sans-serif;letter-spacing:.035em}
+#colorEditor header button{background:transparent;color:#c8cfca;border:0;padding:0;min-width:32px;min-height:32px;font-size:22px}
+.colorGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 12px;padding:14px 16px 18px}
+#modelControls .colorGrid label{display:flex;align-items:center;gap:7px;font:500 14px/1 Barlow,sans-serif;color:#d7ded8;cursor:pointer}
+.colorGrid input{order:-1;flex:none;appearance:none;width:28px;height:28px;border:0;background:transparent;padding:0;border-radius:50%;cursor:pointer}
+.colorGrid input::-webkit-color-swatch-wrapper{padding:0}
+.colorGrid input::-webkit-color-swatch{border:1px solid #89938d;border-radius:50%}
+.colorGrid input::-moz-color-swatch{border:1px solid #89938d;border-radius:50%}
+.colorGrid input:focus-visible{outline:2px solid #ff9d70;outline-offset:2px}
 </style>
 </head>
 <body>
@@ -174,7 +188,7 @@ h1,.instrument h2,h2{font:700 clamp(28px,2.7vw,84px)/.98 BarlowCond,sans-serif;l
   </div>
   <p id="cadHelp" role="status">Loading the R04 housing…</p>
   <div id="modelControls" hidden>
-    <fieldset id="finishControl" aria-label="Housing finish" hidden><label title="Charcoal speckle and orange"><input type="radio" name="finish" value="speckle-orange" aria-label="Charcoal speckle and orange" checked><span class="swatch s0"></span></label><label title="Graphite and orange"><input type="radio" name="finish" value="graphite-orange" aria-label="Graphite and orange" ><span class="swatch s1"></span></label><label title="Spruce and bone"><input type="radio" name="finish" value="spruce-bone" aria-label="Spruce and bone" ><span class="swatch s2"></span></label><label title="Ivory / Cobalt / Red"><input type="radio" name="finish" value="ivory-cobalt-red" aria-label="Ivory / Cobalt / Red"><span class="swatch" style="background:linear-gradient(145deg,#e9e4d9 58%, #224cb3 59% 72%, #be3226 73%)"></span></label><label title="Storm Blue / Acid Lime"><input type="radio" name="finish" value="storm-blue-acid-lime" aria-label="Storm Blue / Acid Lime"><span class="swatch" style="background:linear-gradient(145deg,#384b5c 58%, #bdd142 73%)"></span></label><label title="Deep Navy / Tan"><input type="radio" name="finish" value="deep-navy-tan" aria-label="Deep Navy / Tan"><span class="swatch" style="background:linear-gradient(145deg,#152b44 58%, #b28a5c 73%)"></span></label><label title="Oxblood / Pale Rose"><input type="radio" name="finish" value="oxblood-pale-rose" aria-label="Oxblood / Pale Rose"><span class="swatch" style="background:linear-gradient(145deg,#502733 58%, #cc968c 73%)"></span></label><label title="Charcoal / Yellow"><input type="radio" name="finish" value="charcoal-yellow" aria-label="Charcoal / Yellow"><span class="swatch" style="background:linear-gradient(145deg,#292d2e 58%, #eab019 73%)"></span></label><label title="Red / White"><input type="radio" name="finish" value="red-white" aria-label="Red / White"><span class="swatch" style="background:linear-gradient(145deg,#bd3226 58%, #e9e4d9 73%)"></span></label></fieldset><button id="fitCad" type="button">Fit view</button>
+    <fieldset id="finishControl" aria-label="Housing finish" hidden><label title="Original black"><input type="radio" name="finish" value="original-black" aria-label="Original black" ><span class="swatch s1"></span></label><label title="Charcoal speckle and orange"><input type="radio" name="finish" value="speckle-orange" aria-label="Charcoal speckle and orange" checked><span class="swatch s0"></span></label><label title="Spruce and bone"><input type="radio" name="finish" value="spruce-bone" aria-label="Spruce and bone" ><span class="swatch s2"></span></label><label title="Jamaica · black, gold and deep green"><input type="radio" name="finish" value="jamaica" aria-label="Jamaica · black, gold and deep green"><span class="swatch" style="background:linear-gradient(145deg,#191919 76%, #e4b934 77% 82%, #176036 83%)"></span></label><label title="Storm Blue / Acid Lime"><input type="radio" name="finish" value="storm-blue-acid-lime" aria-label="Storm Blue / Acid Lime"><span class="swatch" style="background:linear-gradient(145deg,#384b5c 58%, #bdd142 73%)"></span></label><label title="Deep Navy / Tan"><input type="radio" name="finish" value="deep-navy-tan" aria-label="Deep Navy / Tan"><span class="swatch" style="background:linear-gradient(145deg,#152b44 58%, #b28a5c 73%)"></span></label><label title="Oxblood / Pale Rose"><input type="radio" name="finish" value="oxblood-pale-rose" aria-label="Oxblood / Pale Rose"><span class="swatch" style="background:linear-gradient(145deg,#502733 58%, #cc968c 73%)"></span></label><label title="Charcoal / Yellow"><input type="radio" name="finish" value="charcoal-yellow" aria-label="Charcoal / Yellow"><span class="swatch" style="background:linear-gradient(145deg,#292d2e 58%, #eab019 73%)"></span></label><label title="Red / White"><input type="radio" name="finish" value="red-white" aria-label="Red / White"><span class="swatch" style="background:linear-gradient(145deg,#bd3226 58%, #e9e4d9 73%)"></span></label><label title="Midnight / Copper"><input type="radio" name="finish" value="midnight-copper" aria-label="Midnight / Copper"><span class="swatch" style="background:linear-gradient(145deg,#20283a 65%,#b98470 66% 74%,#373137 75%)"></span></label></fieldset><button type="button" id="customize" popovertarget="colorEditor" aria-label="Customize finish" title="Customize finish"><svg width="25" height="25" viewBox="0 0 32 32" aria-hidden="true"><path fill="#ddd6c9" d="M16 3a13 13 0 1 0 0 26h2a4 4 0 0 0 3-6.6c-1.4-1.6-.3-4.2 2-4.2h2.6c3.3 0 4.4-2.2 3.5-5.5C27.6 6.8 22.7 3 16 3Z"/><circle cx="9" cy="12" r="2.7" fill="#d95345"/><circle cx="16" cy="8.8" r="2.7" fill="#e6a623"/><circle cx="23" cy="12" r="2.7" fill="#288d83"/><circle cx="8.5" cy="19" r="2.7" fill="#536bc1"/><circle cx="15.5" cy="23" r="2.1" fill="#282c2b"/></svg></button><section popover id="colorEditor" aria-labelledby="paletteTitle"><header><h2 id="paletteTitle">Custom finish</h2><button popovertarget="colorEditor" popovertargetaction="hide" aria-label="Close palette">×</button></header><div class="colorGrid"><label>Shell<input type="color" data-part="shell" aria-label="Shell color"></label><label>Heel<input type="color" data-part="heel" aria-label="Heel color"></label><label>Stripe<input type="color" data-part="stripe" aria-label="Stripe color"></label><label>Button<input type="color" data-part="PowerButton_SW1" aria-label="Button color"></label><label>Wheel<input type="color" data-part="OEMThrottleWheel" aria-label="Wheel color"></label><label>Trigger<input type="color" data-part="InstalledTrigger" aria-label="Trigger color"></label></div></section><button id="fitCad" type="button">Fit view</button>
     <span>Drag to rotate freely · Drag around the edge to roll · Scroll to zoom</span>
   </div>
   <p id="lampKey" hidden>Simulated lights · orange for wheel input, blue for link, green for battery.</p>
@@ -695,20 +709,34 @@ async function createViewer() {
   const models = new Map();
   let housingRig;
   const finishControl = document.getElementById('finishControl');
-  const chosenFinish = () => finishControl.querySelector('input:checked').value;
+  const customButton = document.getElementById('customize');
+  const editor = document.getElementById('colorEditor');
+  const pickers = [...editor.querySelectorAll('input[type=color]')];
+  const chosenFinish = () => finishControl.querySelector('input:checked')?.value ?? 'custom';
+  const custom = {};
+  const customKey = 'hypertrace-custom-colors';
+  function selectCustom() {
+    for (const radio of finishControl.elements) radio.checked = false;
+    customButton.toggleAttribute('data-active', true);
+  }
   const finishes = {
+    "midnight-copper":[0x20283a,0x373137,0xb98470],
     "red-white":[0xbd3226,0xe9e4d9,0xe9e4d9],
     "charcoal-yellow":[0x292d2e,0xeab019,0xeab019],
     "oxblood-pale-rose":[0x502733,0xcc968c,0xcc968c],
     "deep-navy-tan":[0x152b44,0xb28a5c,0xb28a5c],
     "storm-blue-acid-lime":[0x384b5c,0xbdd142,0xbdd142],
-    "ivory-cobalt-red":[0xe9e4d9,0xbe3226,0x224cb3],
-    'graphite-orange': [0x303234, 0xe85e24],
+    "jamaica":[0x191919,0x176036,0xe4b934],
+    'original-black': [0x202020, 0x202020],
     'spruce-bone': [0x214037, 0xd5c6a7],
   };
   try {
-    const saved = localStorage.getItem('r04-twin-finish');
-    for (const radio of finishControl.elements) if (radio.value === saved) radio.checked = true;
+    const previous = localStorage.getItem('r04-twin-finish');
+    const saved = ({'graphite-orange':'original-black','ivory-cobalt-red':'jamaica'})[previous] ?? previous;
+    const stored = JSON.parse(localStorage.getItem(customKey) || 'null');
+    if (stored && pickers.every(p => /^#[0-9a-f]{6}$/i.test(stored[p.dataset.part]))) Object.assign(custom,stored);
+    if (saved === 'custom' && custom.shell) selectCustom();
+    else for (const radio of finishControl.elements) if (radio.value === saved) radio.checked = true;
   } catch { /* Storage is optional in an embedded reader. */ }
 
   // Both shell meshes use metre-scale, Y-up glTF coordinates. The finish
@@ -729,8 +757,18 @@ async function createViewer() {
        diffuseColor.rgb = mix(mix(bodyColor, stripeColor, smoothstep(-aa, aa, offset)), heelColor, smoothstep(.0015-aa,.0015+aa,offset));`);
   }
   let shellParts = [];
+  let tactileMaterials = [];
   function applyFinish() {
-    const palette = finishes[chosenFinish()];
+    const isCustom = chosenFinish() === 'custom';
+    const palette = isCustom ? ['shell','heel','stripe'].map(part => parseInt(custom[part].slice(1),16)) : finishes[chosenFinish()];
+    const heelAccent = palette?.[1] ?? 0xe85e24;
+    const stripeAccent = palette?.[2] ?? heelAccent;
+    for (const {id, material} of tactileMaterials) {
+      const useStripe = id === 'OEMThrottleWheel' || chosenFinish() === 'midnight-copper';
+      const buttonAccent = chosenFinish() === 'jamaica' ? palette[0] : heelAccent;
+      if (isCustom) material.color.set(custom[id]);
+      else material.color.setHex(useStripe ? stripeAccent : buttonAccent);
+    }
     if (palette && shellParts.length) {
       if (!paintedShell) {
         paintedShell = shellParts[0].original.clone();
@@ -745,7 +783,25 @@ async function createViewer() {
     for (const {mesh, original} of shellParts) mesh.material = palette ? paintedShell : original;
     draw();
   }
+  editor.addEventListener('beforetoggle', event => {
+    if (event.newState !== 'open') return;
+    const palette = finishes[chosenFinish()] ?? [0x242626,0x242626,0xe85e24];
+    const hex = n => '#' + n.toString(16).padStart(6,'0');
+    const seed = {shell:hex(palette[0]),heel:hex(palette[1]),stripe:hex(palette[2] ?? palette[1])};
+    for (const {id,material} of tactileMaterials) seed[id] = '#' + material.color.getHexString();
+    for (const p of pickers) p.value = custom[p.dataset.part] ?? seed[p.dataset.part];
+  });
+  editor.addEventListener('input', () => {
+    for (const p of pickers) custom[p.dataset.part] = p.value;
+    selectCustom();
+    applyFinish();
+    try {
+      localStorage.setItem(customKey,JSON.stringify(custom));
+      localStorage.setItem('r04-twin-finish','custom');
+    } catch {}
+  });
   finishControl.addEventListener('change', () => {
+    customButton.removeAttribute('data-active');
     applyFinish();
     try { localStorage.setItem('r04-twin-finish', chosenFinish()); } catch {}
   });
@@ -836,6 +892,12 @@ async function createViewer() {
     const wrap = new T.Group();
     wrap.add(root);
     if (name === 'r04-housing.glb') {
+      tactileMaterials = ['PowerButton_SW1', 'OEMThrottleWheel', 'InstalledTrigger'].map(id => {
+        const mesh = root.getObjectByName(id);
+        const material = mesh.material.clone();
+        mesh.material = material;
+        return {id, material};
+      });
       housingRig = buildInputRig(T, wrap, cadMotion);
       // Restore the old model's own materials before its resources are freed.
       for (const {mesh, original} of shellParts) mesh.material = original;
